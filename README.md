@@ -1,0 +1,2 @@
+# dslr
+Elementary algorithmic project
