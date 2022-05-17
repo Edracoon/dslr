@@ -1,2 +1,2 @@
 # Data Science and Logistic Regression
-Elementary algorithmic project
+Harry Potter and a Data Scientist
