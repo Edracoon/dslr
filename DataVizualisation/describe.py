@@ -18,15 +18,65 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 import sys
 
-if (len(sys.argv) < 2):
-    print('Error: Need a dataset as argument')
-    exit(1)
+# Index,Hogwarts House,First Name,Last Name,Birthday,Best Hand,Arithmancy,Astronomy,Herbology,Defense Against the Dark Arts,Divination,
+# Muggle Studies,Ancient Runes,History of Magic,Transfiguration,Potions,Care of Magical Creatures,Charms,Flying
+INDEX = 0
+HOUSE = 1
+FIRSTNAME = 2
+LASTNAME = 3
+BIRTHDAY = 4
+BESTHAND = 5
+ARITHMANCY = 6
+ASTRONOMY = 7
+HERBOLOGY = 8
+DEFENSE = 9
+DIVINATION = 10
+MUGGLE = 11
+ANCIENT = 12
+HISTORY = 13
+TRANSFIG = 14
+POTIONS = 15
+CARE = 16
+CHARMS = 17
+FLYING = 18
+N_FEATS = 19  # Number of features
 
-lines = []
-try:
-    file = open('../datasets/dataset_train', 'r')
-    lines = file.read()
-except:
-    print('Error: Invalid file or do not exists')
 
-print(lines)
+def parseCSV():
+    fileName = ''
+    if (len(sys.argv) < 2):
+        print('Error: Need a dataset as argument')
+        exit(1)
+    else:
+        fileName = sys.argv[1]
+    lines = []
+    try:
+        file = open(fileName, 'r')
+        lines = file.read().split('\n')
+    except:
+        print('Error: Invalid file or do not exists')
+    everyone = []
+    for line in lines:
+        everyone.append(line.split(','))
+    return everyone
+
+
+def mean(feature):
+    total = 0
+    for i in range(len(feature)):
+        if feature[i] != '':
+            total += float(feature[i])
+    return total / len(feature)
+
+
+everyone = parseCSV()
+features = [[], [], [], [], [], [], [],
+            [], [], [], [], [], [],
+            [], [], [], [], [], []]
+
+for row in range(len(everyone)):
+    if row > 0:
+        for col in range(len(everyone[row])):
+            features[col].append(everyone[row][col])
+
+print(mean(features[DIVINATION]))
