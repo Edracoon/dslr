@@ -16,7 +16,9 @@
 #   Max       7.900000    4.400000      6.900000    2.500000
 #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+import string
 import sys
+from xml.dom import INDEX_SIZE_ERR
 
 # Index,Hogwarts House,First Name,Last Name,Birthday,Best Hand,Arithmancy,Astronomy,Herbology,Defense Against the Dark Arts,Divination,
 # Muggle Studies,Ancient Runes,History of Magic,Transfiguration,Potions,Care of Magical Creatures,Charms,Flying
@@ -26,20 +28,21 @@ FIRSTNAME = 2
 LASTNAME = 3
 BIRTHDAY = 4
 BESTHAND = 5
-ARITHMANCY = 6
-ASTRONOMY = 7
-HERBOLOGY = 8
-DEFENSE = 9
-DIVINATION = 10
-MUGGLE = 11
-ANCIENT = 12
-HISTORY = 13
-TRANSFIG = 14
-POTIONS = 15
-CARE = 16
-CHARMS = 17
-FLYING = 18
-N_FEATS = 19  # Number of features
+
+ARITHMANCY = 0
+ASTRONOMY = 1
+HERBOLOGY = 2
+DEFENSE = 3
+DIVINATION = 4
+MUGGLE = 5
+ANCIENT = 6
+HISTORY = 7
+TRANSFIG = 8
+POTIONS = 9
+CARE = 10
+CHARMS = 11
+FLYING = 12
+N_FEATS = 13  # Number numbered features
 
 
 def parseCSV():
@@ -55,28 +58,93 @@ def parseCSV():
         lines = file.read().split('\n')
     except:
         print('Error: Invalid file or do not exists')
-    everyone = []
+    csvFile = []
     for line in lines:
-        everyone.append(line.split(','))
-    return everyone
+        csvFile.append(line.split(','))
+    return csvFile
+
+def fillMissingData(features, means):
+    for col in range(len(features)):
+        for row in range(len(features[col])):
+            if features[col][row] == 0.0:
+                features[col][row] = means[col]
+
+def fillDataContainers():
+    numericData = [[], [], [], [], [], [], [], [], [], [], [], [], []]
+    stringData = [[], [], [], [], [], []]
+    # === Store data in float values === #
+    for row in range(len(csvFile)):
+        if row > 0:
+            for col in range(len(csvFile[row])):
+                if col >= 6 and csvFile[row][col] != '':
+                    numericData[col - 6].append(float(csvFile[row][col]))
+                elif csvFile[row][col] == '':
+                    numericData[col - 6].append(0)
+    # === Store data in string values === #
+    for row in range(len(csvFile)):
+        if row > 0:
+            for col in range(len(csvFile[row]) - 13):
+                stringData[col].append(csvFile[row][col])
+    return numericData, stringData
 
 
-def mean(feature):
-    total = 0
-    for i in range(len(feature)):
-        if feature[i] != '':
-            total += float(feature[i])
-    return total / len(feature)
+def getMinMax(features):
+    minmax = []
+    for i in range(len(features)):
+        min_value = min(features[i])
+        max_value = max(features[i])
+        minmax.append([min_value, max_value])
+    return minmax
 
+def getNormalizeData(features, minimax):
+    normalizedData = []
+    for col in range(len(features)):
+        normalizedCol = []
+        for row in range(len(features[col])):
+            norm = (features[col][row] - minimax[col][0]) / (minimax[col][1] - minimax[col][0])
+            normalizedCol.append(norm)
+        normalizedData.append(normalizedCol);
+    return normalizedData
 
-everyone = parseCSV()
-features = [[], [], [], [], [], [], [],
-            [], [], [], [], [], [],
-            [], [], [], [], [], []]
+def getMeans(features):
+    means = []
+    for col in range(len(features)):
+        total = 0
+        for row in range(len(features[col])):
+            total += float(features[col][row])
+        means.append(total / len(features[col]))
+    return means
+        
+csvFile = parseCSV()
 
-for row in range(len(everyone)):
-    if row > 0:
-        for col in range(len(everyone[row])):
-            features[col].append(everyone[row][col])
+numericData, stringData = fillDataContainers() # Filling our data tabs
+means = getMeans(numericData) # Calculate means before filling missing data
+fillMissingData(numericData, means)
 
-print(mean(features[DIVINATION]))
+minimax = getMinMax(numericData)
+numericNormalized = getNormalizeData(numericData, minimax)
+NormMeans = getMeans(numericNormalized) # Calculate means before filling missing data
+
+print('means:')
+print(means)
+print('minimax:')
+print(minimax)
+
+def printDescribe():
+    # === features === #
+    print('\t Arithmancy\tAstronomy\tHerbology\tDADA\t\tDivination\tMuggle\t\tAncient\t\tHistory\t\tTransfig\tPotions\t\tCare\t\tCharms\t\tFlying')
+    # === means === #
+    line = ''
+    for mean in means:
+        line += str(round(mean, 6)) + ' \t'
+    print('means\t', line)
+    line = ''
+    for mean in NormMeans:
+        line += str(round(mean, 6)) + ' \t'
+    print('norm\t', line)
+    # === min max === #
+    print()
+
+# Arithmancy,Astronomy,Herbology,Defense Against the Dark Arts,Divination,
+# Muggle Studies,Ancient Runes,History of Magic,Transfiguration,Potions,Care of Magical Creatures,Charms,Flying
+printDescribe()
