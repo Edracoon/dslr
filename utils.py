@@ -54,3 +54,24 @@ def fillDataContainers(csvFile):
             for col in range(len(csvFile[row]) - 13):
                 stringData[col].append(csvFile[row][col])
     return numericData, stringData
+
+
+def getGradesByHouse(csvFile, course):
+    Hufflepuff = []
+    Gryffindor = []
+    Slytherin = []
+    Ravenclaw = []
+    index = csvFile[0].index(course)
+    for row in range(len(csvFile)):
+        if row > 0:
+            if csvFile[row][1] == 'Hufflepuff' and csvFile[row][index] != '':
+                Hufflepuff.append(float(csvFile[row][index]))
+            elif csvFile[row][1] == 'Gryffindor' and csvFile[row][index] != '':
+                Gryffindor.append(float(csvFile[row][index]))
+            elif csvFile[row][1] == 'Slytherin' and csvFile[row][index] != '':
+                Slytherin.append(float(csvFile[row][index]))
+            elif csvFile[row][1] == 'Ravenclaw' and csvFile[row][index] != '':
+                Ravenclaw.append(float(csvFile[row][index]))
+    return Hufflepuff, Gryffindor, Slytherin, Ravenclaw
+    
+    
