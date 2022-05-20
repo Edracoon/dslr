@@ -20,6 +20,10 @@ CHARMS = 11
 FLYING = 12
 N_FEATS = 13  # Number numbered features
 
+courses = ['Arithmancy', 'Astronomy', 'Herbology', 'Defense Against the Dark Arts',
+           'Divination', 'Muggle Studies', 'Ancient Runes', 'History of Magic',
+           'Transfiguration', 'Potions', 'Care of Magical Creatures', 'Charms', 'Flying']
+
 def parseCSV(fileName):
     lines = []
     try:
