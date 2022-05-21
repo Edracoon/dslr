@@ -42,6 +42,11 @@ def fillMissingData(features, means):
         for row in range(len(features[col])):
             if features[col][row] == 0.0:
                 features[col][row] = means[col]
+                
+def fillMissingDataCourse(feature, mean):
+    for col in range(len(feature)):
+            if feature[col] == 0.0:
+                feature[col] = mean
 
 def fillDataContainers(csvFile):
     numericData = [[], [], [], [], [], [], [], [], [], [], [], [], []]
@@ -68,14 +73,26 @@ def getGradesByHouse(csvFile, course):
     index = csvFile[0].index(course)
     for row in range(len(csvFile)):
         if row > 0:
-            if csvFile[row][1] == 'Hufflepuff' and csvFile[row][index] != '':
-                Hufflepuff.append(float(csvFile[row][index]))
-            elif csvFile[row][1] == 'Gryffindor' and csvFile[row][index] != '':
-                Gryffindor.append(float(csvFile[row][index]))
-            elif csvFile[row][1] == 'Slytherin' and csvFile[row][index] != '':
-                Slytherin.append(float(csvFile[row][index]))
-            elif csvFile[row][1] == 'Ravenclaw' and csvFile[row][index] != '':
-                Ravenclaw.append(float(csvFile[row][index]))
+            if csvFile[row][1] == 'Hufflepuff':
+                if csvFile[row][index] == '':
+                    Hufflepuff.append(float(0))
+                else:
+                    Hufflepuff.append(float(csvFile[row][index]))
+            elif csvFile[row][1] == 'Gryffindor':
+                if csvFile[row][index] == '':
+                    Gryffindor.append(float(0))
+                else:
+                    Gryffindor.append(float(csvFile[row][index]))
+            elif csvFile[row][1] == 'Slytherin':
+                if csvFile[row][index] == '':
+                    Slytherin.append(float(0))
+                else:
+                    Slytherin.append(float(csvFile[row][index]))
+            elif csvFile[row][1] == 'Ravenclaw':
+                if csvFile[row][index] == '':
+                    Ravenclaw.append(float(0))
+                else:
+                    Ravenclaw.append(float(csvFile[row][index]))
     return Hufflepuff, Gryffindor, Slytherin, Ravenclaw
     
     
