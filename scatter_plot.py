@@ -11,6 +11,9 @@ import matplotlib.pyplot as plt
 from utils import *
 from ft_math import *
 
+
+print('Usage: python3 scatter_plot.py')
+
 csvFile = parseCSV('./datasets/dataset_train.csv')
 
 def scatter_plot():

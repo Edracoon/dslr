@@ -20,7 +20,7 @@ import sys
 from utils import *
 from ft_math import *
 
-print('Usage: describe.py ./path/file.csv\n')
+print('Usage: python3 describe.py ./path/file.csv\n')
 
 fileName = ''
 if (len(sys.argv) < 2):

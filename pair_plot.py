@@ -11,6 +11,9 @@ import matplotlib.pyplot as plt
 from utils import *
 from ft_math import *
 
+
+print('Usage: python3 pair_plot.py')
+
 csvFile = parseCSV('./datasets/dataset_train.csv')
 figure, axis = plt.subplots(13, 13)
 plt.subplots_adjust(wspace=0.30, hspace=0.30)

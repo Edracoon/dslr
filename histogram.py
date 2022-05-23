@@ -18,7 +18,7 @@ if (len(sys.argv) > 1 and sys.argv[1] == '-see-all'):
 if (len(sys.argv) > 1 and sys.argv[1] == '-see-diff'):
     seeDiff = True
 
-print('Usage: histogram.py [-see-all,-see-diff]\n')
+print('Usage: python3 histogram.py [-see-all,-see-diff]\n')
 
 csvFile = parseCSV('./datasets/dataset_train.csv')
 
