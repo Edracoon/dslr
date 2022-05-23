@@ -20,6 +20,8 @@ import sys
 from utils import *
 from ft_math import *
 
+print('Usage: describe.py ./path/file.csv\n')
+
 fileName = ''
 if (len(sys.argv) < 2):
     print('Error: Need a dataset as argument')

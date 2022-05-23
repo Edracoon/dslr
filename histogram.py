@@ -29,7 +29,7 @@ def allHistograms():
         for x in range(4):
             if i >= len(courses):
                 break
-            Hufflepuff, Gryffindor, Slytherin, Ravenclaw = getGradesByHouse(csvFile, courses[i])
+            Hufflepuff, Gryffindor, Slytherin, Ravenclaw = getGradesByHouse(csvFile, courses[i], noZero=True)
             axis[y, x].set_title(courses[i])
             axis[y, x].hist(Hufflepuff, color='red', alpha=0.3)
             axis[y, x].hist(Gryffindor, color='blue', alpha=0.3)
@@ -39,7 +39,7 @@ def allHistograms():
     plt.show()
 
 def HomogeneousDiff(course):
-    Hufflepuff, Gryffindor, Slytherin, Ravenclaw = getGradesByHouse(csvFile, course)
+    Hufflepuff, Gryffindor, Slytherin, Ravenclaw = getGradesByHouse(csvFile, course, noZero=True)
     tab = [Hufflepuff, Gryffindor, Slytherin, Ravenclaw]
     means = []
     for house in tab:
@@ -61,7 +61,7 @@ if (seeDiff):
 if (seeAll):
     allHistograms()
 else:
-    Hufflepuff, Gryffindor, Slytherin, Ravenclaw = getGradesByHouse(csvFile, 'Care of Magical Creatures')
+    Hufflepuff, Gryffindor, Slytherin, Ravenclaw = getGradesByHouse(csvFile, 'Care of Magical Creatures', noZero=True)
     plt.hist(Hufflepuff, color='red', alpha=0.3)
     plt.hist(Gryffindor, color='blue', alpha=0.3)
     plt.hist(Slytherin, color='green', alpha=0.3)

@@ -16,31 +16,29 @@ figure, axis = plt.subplots(13, 13)
 plt.subplots_adjust(wspace=0.30, hspace=0.30)
 
 def pair_plot():
-    for x in range(13):
-        for y in range(13):
-            axis[x][y].tick_params(labelbottom=False)
-            axis[x][y].tick_params(labelleft=False)
-            if x != y:
-                HufflepuffX, GryffindorX, SlytherinX, RavenclawX = getGradesByHouse(csvFile, courses[x])
-                HufflepuffY, GryffindorY, SlytherinY, RavenclawY = getGradesByHouse(csvFile, courses[y])
-                fillMissingData(HufflepuffX + GryffindorX + SlytherinX + RavenclawX, ft_mean(HufflepuffX + GryffindorX + SlytherinX + RavenclawX))
-                fillMissingData(HufflepuffY + GryffindorY + SlytherinY + RavenclawY, ft_mean(HufflepuffY + GryffindorY + SlytherinY + RavenclawY))
-                axis[x][y].scatter(HufflepuffY, HufflepuffX, s=0.7, color='red', alpha=0.8)
-                axis[x][y].scatter(GryffindorY, GryffindorX, s=0.7, color='blue', alpha=0.6)
-                axis[x][y].scatter(SlytherinY, SlytherinX, s=0.7, color='green', alpha=0.2)
-                axis[x][y].scatter(RavenclawY, RavenclawX, s=0.7, color='yellow', alpha=0.1)
+    for y in range(13):
+        for x in range(13):
+            axis[y][x].tick_params(labelbottom=False)
+            axis[y][x].tick_params(labelleft=False)
+            if y != x:
+                HufflepuffX, GryffindorX, SlytherinX, RavenclawX = getGradesByHouse(csvFile, courses[x], noZero=False)
+                HufflepuffY, GryffindorY, SlytherinY, RavenclawY = getGradesByHouse(csvFile, courses[y], noZero=False)
+                axis[y][x].scatter(HufflepuffX, HufflepuffY, s=1, color='red', alpha=0.3)
+                axis[y][x].scatter(GryffindorX, GryffindorY, s=1, color='blue', alpha=0.3)
+                axis[y][x].scatter(SlytherinX, SlytherinY, s=1, color='green', alpha=0.3)
+                axis[y][x].scatter(RavenclawX, RavenclawY, s=1, color='yellow', alpha=0.3)
             else:
-                Hufflepuff, Gryffindor, Slytherin, Ravenclaw = getGradesByHouse(csvFile, courses[x])
-                axis[x][y].hist(Hufflepuff, color='red', alpha=0.3)
-                axis[x][y].hist(Gryffindor, color='blue', alpha=0.3)
-                axis[x][y].hist(Slytherin, color='green', alpha=0.3)
-                axis[x][y].hist(Ravenclaw, color='yellow', alpha=0.3)
-            if x == 12:
-                axis[x][y].set_xlabel(courses[y].replace(' ', '\n'), fontsize=10)
-                axis[x][y].tick_params(labelbottom=True)
-            if y == 0:
-                axis[x][y].set_ylabel(courses[x].replace(' ', '\n'), fontsize=10)
-                axis[x][y].tick_params(labelleft=True)      
+                Hufflepuff, Gryffindor, Slytherin, Ravenclaw = getGradesByHouse(csvFile, courses[y])
+                axis[y][x].hist(Hufflepuff, color='red', alpha=0.5)
+                axis[y][x].hist(Gryffindor, color='blue', alpha=0.5)
+                axis[y][x].hist(Slytherin, color='green', alpha=0.5)
+                axis[y][x].hist(Ravenclaw, color='yellow', alpha=0.5)
+            if y == 12:
+                axis[y][x].set_xlabel(courses[x].replace(' ', '\n'), fontsize=8)
+                axis[y][x].tick_params(labelbottom=True)
+            if x == 0:
+                axis[y][x].set_ylabel(courses[y].replace(' ', '\n'), fontsize=8)
+                axis[y][x].tick_params(labelleft=True)      
     plt.show()
 
 
