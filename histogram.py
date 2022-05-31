@@ -66,6 +66,7 @@ else:
     plt.hist(Gryffindor, color='blue', alpha=0.3)
     plt.hist(Slytherin, color='green', alpha=0.3)
     plt.hist(Ravenclaw, color='yellow', alpha=0.3)
+    plt.legend({'Hufflepuff': 'Hufflepuff', 'Gryffindor': 'Gryffindor', 'Slytherin': 'Slytherin', 'Ravenclaw': 'Ravenclaw'})
     plt.title('Care of Magical Creatures')
     plt.xlabel('Grades')
     plt.ylabel('Nb Students')

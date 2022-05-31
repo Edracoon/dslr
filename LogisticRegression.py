@@ -20,7 +20,6 @@ And so we can update our parameters :
 W = W - L * dW
 B = B - L * dB
 
-
 L is the learning rate -> Used in the Gradient Ascent Algorithm
 Epoch is the machine learning term for 'Iteration'
 W is the array of Weight of the length of the number of features in X
@@ -43,16 +42,12 @@ class LogisticRegression:
         # Get the shape of X
         n_samples, n_features = X.shape
         
-        
         # Init parameters weight and b to zeros
         self.W = np.zeros((n_features, 1))
         self.B = 0
         
         # Make the real values n_samples * 1
         y = y.reshape(n_samples, 1)
-        
-        # Standardize our inputs avoiding scaling problem and optimum problem
-        X = self.standardize(X)
                 
         for epoch in range(self.epochs):
             # Compute prediction with our actual weights and bias
@@ -74,38 +69,39 @@ class LogisticRegression:
     def classificate(self, predictions):
         return [1 if predictions[i] > 0.5 else 0 for i in range(len(predictions))];
 
-    def standardize(self, X):
-        n_samples, n_features = X.shape
-        for i in range(n_features):
-            mean = self.mean(X.iloc[:,i])
-            std  = self.standard_deviation(X.iloc[:,i])
-            for j in range(len(X.iloc[:,i])):
-                if X.iloc[j,i] != X.iloc[j,i]:
-                    X.iloc[j,i] = 0
-                else:
-                    X.iloc[j,i] = (X.iloc[j,i] - mean) / std
-        return X
 
     def sigmoid(self, x):
         return (1.0 / (1.0 + np.exp(-x)))
+    
+    
+def ft_mean(values):
+    mean = 0
+    n = len(values)
+    for i in range(len(values)):
+        if values[i] != values[i]:
+            n -= 1
+        else:
+            mean += values[i]
+    return mean / n
 
-    def mean(self, values):
-        mean = 0
-        n = len(values)
-        for i in range(len(values)):
-            if values[i] != values[i]:
-                n -= 1
+def standard_deviation(values):
+    mean = ft_mean(values)
+    sum = 0
+    for row in range(len(values)):
+        if values[row] != values[row]:
+            sum += 0
+        else:
+            sum += (values[row] - mean) ** 2
+    return math.sqrt(sum / len(values))
+
+def standardize(X):
+    n_samples, n_features = X.shape
+    for i in range(n_features):
+        mean = ft_mean(X.iloc[:,i])
+        std  = standard_deviation(X.iloc[:,i])
+        for j in range(len(X.iloc[:,i])):
+            if X.iloc[j,i] != X.iloc[j,i]:
+                X.iloc[j,i] = 0
             else:
-                mean += values[i]
-        return mean / n
-    
-    def standard_deviation(self, values):
-        mean = self.mean(values)
-        sum = 0
-        for row in range(len(values)):
-            if values[row] != values[row]:
-                sum += 0
-            else:
-                sum += (values[row] - mean) ** 2
-        return math.sqrt(sum / len(values))
-    
+                X.iloc[j,i] = (X.iloc[j,i] - mean) / std
+    return X
