@@ -19,5 +19,4 @@ Harry Potter and a Data Scientist
 ![image](https://user-images.githubusercontent.com/77042040/171409933-a3d4a4b6-266c-49fe-83fb-55d52b2a6ac2.png)
 
 # logreg_train
-Accuracy of the training :
 ![image](https://user-images.githubusercontent.com/77042040/171409376-8490a633-4f95-4d04-b05d-3a18c68307c6.png)
